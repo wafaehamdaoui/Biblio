@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="Notification" />
+
+<h1 class="text-primary ms-lg-2 mt-4">List of Books</h1>
+<br/>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Book_Id</th>
+            <th>Book_Title</th>
+            <th>Author</th>
+            <th>Book_Description</th>
+            <th>Created_At</th>
+            <th>Updated_At</th>
+            <th style="width:10%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr class="table-info">
+                <td>
+                    @obj.Id
+                </td>
+                <td>
+                    @obj.title
+                </td>
+                <td>
+                    @obj.author
+                </td>
+                <td>
+                    @obj.description
+                </td>
+                <td>
+                    @obj.createdAt
+                </td>
+                <td>
+                    @obj.updatedAt
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a class="btn btn-warning" asp-controller="Books" asp-action="Edit" asp-route-id="@obj.Id"><i class="bi bi-pencil-fill"></i></a>
+                        <a class="btn btn-danger" asp-controller="Books" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash3-fill"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

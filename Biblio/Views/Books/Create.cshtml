@@ -1,0 +1,35 @@
+﻿@model Book
+
+<form method="post">
+    <div class="col-md-5">
+        <div class="row pb-2">
+            <h2 class="text-primary mt-4">Add New Book</h2>
+            <hr />
+        </div>
+        <div class="mb-4">
+            <label asp-for="title"></label>
+            <input asp-for="title" class="form-control"/>
+            <span asp-validation-for="title" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="author"></label>
+            <input asp-for="author" class="form-control" />
+            <span asp-validation-for="author" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="description"></label>
+            <textarea asp-for="description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="url"></label>
+            <input asp-for="url" class="form-control" />
+            <span asp-validation-for="url" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="Books" asp-action="Index" class="btn btn-light" style="width:150px">
+            Back to list
+        </a>
+    </div>
+</form>
+

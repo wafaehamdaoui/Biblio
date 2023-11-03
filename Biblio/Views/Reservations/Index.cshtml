@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Biblio.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-primary mt-5">Reservations List</h1>
+
+<p class="text-end">
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TakeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BackDate)
+            </th>
+            <th style="width:10%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr class="table-info">
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TakeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BackDate)
+            </td>
+            <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a class="btn btn-light" asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye-fill"></i></a>
+                        <a class="btn btn-warning" asp-controller="Reservations" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a>
+                        <a class="btn btn-danger" asp-controller="Reservations" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i></a>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

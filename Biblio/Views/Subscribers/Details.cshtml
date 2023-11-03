@@ -1,0 +1,36 @@
+﻿@model Biblio.Models.Subscriber
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3 class="text-info mt-5">Subscriber Details</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+    </dl>
+</div>
+<div class="mt-2">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a> 
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" class="btn btn-light">Back to List</a>
+</div>
