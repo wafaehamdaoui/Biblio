@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.DisplayNameFor(model => model.SubscriberId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BookId)
@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.BackDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
             <th style="width:10%">Actions</th>
         </tr>
     </thead>
@@ -31,7 +34,8 @@
 @foreach (var item in Model) {
             <tr class="table-info">
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
+                
+                @Html.DisplayFor(modelItem => item.SubscriberId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BookId)
@@ -42,6 +46,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BackDate)
             </td>
+                @if (item.Status)
+                {
+                    <td>Returned</td>
+                }
+                else
+                {
+
+                    <td>In Progress</td>
+                }
             <td>
                     <div class="w-75 btn-group" role="group">
                         <a class="btn btn-light" asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye-fill"></i></a>

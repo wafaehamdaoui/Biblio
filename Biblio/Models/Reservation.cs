@@ -7,14 +7,15 @@ namespace Biblio.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Student")]
-        public int StudentId { get; set; }
+        [ForeignKey("Subscriber")]
+        public int SubscriberId { get; set; }
         [ForeignKey("Book")]
         public int BookId { get; set; }
         [Required]
         public DateTime TakeDate { get; set; }
         [Required]
         public DateTime BackDate { get; set; }
+        public bool Status { get; set; } 
 
     }
 }

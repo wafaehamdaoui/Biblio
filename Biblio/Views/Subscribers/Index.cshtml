@@ -4,13 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="table-primary">Subscriber list</h1>
+<h1 class="text-primary ms-lg-2 mt-4">Subscriber List</h1>
+<br />
 
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CardId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
@@ -26,6 +30,9 @@
             <tr class="table-info">
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CardId)
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)

@@ -11,6 +11,7 @@ using Biblio.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using System.Net;
 
 namespace Biblio.Controllers
 {
@@ -54,12 +55,25 @@ namespace Biblio.Controllers
             return View(reservation);
         }
 
+        public int NumReservationsBySubscriber(int subscriberId)
+        {
+            var reservations = _context.Resevations
+                .Where(r => r.SubscriberId == subscriberId)
+                .Where(r => r.Status == false)
+                .ToList();
+            return reservations.Count;
+        }
+
         // GET: Reservations/Create
         public IActionResult Create()
         {
             List<Book> books = _context.Books.ToList();
-            SelectList bookList = new SelectList(books, "Id", "title");
+            SelectList bookList = new SelectList(books.Where(obj=>obj.isAvailable==true), "Id", "title");
             ViewData["BookList"] = bookList;
+
+            List<Subscriber> subscribers = _context.Subscribers.ToList();
+            SelectList subscribersList = new SelectList(subscribers, "Id", "CardId");
+            ViewData["SubscribersList"] = subscribersList;
 
             return View();
         }
@@ -73,9 +87,26 @@ namespace Biblio.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (NumReservationsBySubscriber(reservation.SubscriberId) < 2)
+                {
+                    if (reservation.BackDate - reservation.TakeDate < TimeSpan.FromDays(14))
+                    {
+                        _context.Add(reservation);
+                        var book = await _context.Books.FindAsync(reservation.BookId);
+                        book.isAvailable = false;
+                        _context.Update(book);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewData["ValidateMessage"] = "The duration of reservation must not exceed 2 weeks!";
+                    }
+                }
+                else
+                {
+                    ViewData["ValidateMessage"] = "The subscriber could not get another book he already have two reservations!";
+                }
             }
             return View(reservation);
         }
@@ -101,7 +132,7 @@ namespace Biblio.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,BookId,TakeDate,BackDate")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,BookId,TakeDate,BackDate,Status")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
@@ -162,6 +193,8 @@ namespace Biblio.Controllers
             if (reservation != null)
             {
                 _context.Resevations.Remove(reservation);
+                var book = _context.Books.Find(reservation.BookId);
+                book.isAvailable = true;
             }
             
             await _context.SaveChangesAsync();
@@ -173,6 +206,57 @@ namespace Biblio.Controllers
           return (_context.Resevations?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        
+        public async Task<IActionResult> BooksReservedBySubscriber(int subscriberId)
+        {
+            var reservations = await _context.Resevations
+                .Where(r => r.SubscriberId == subscriberId)
+                .OrderBy(r => r.Status)
+                .ToListAsync();
+            return View(reservations);
+        }
+
+        public IActionResult returnBook(int id)
+        {
+            
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var reservation = _context.Resevations.Find(id);
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+            reservation.Status = true;
+            if (ModelState.IsValid)
+            {
+                _context.Resevations.Update(reservation);
+                _context.SaveChanges();
+                TempData["success"] = "reservation Updated successfuly!";
+                return RedirectToAction("BooksReservedBySubscriber");
+            }
+            if (reservation.BookId == null || reservation.BookId == 0)
+            {
+                return NotFound();
+            }
+            var book = _context.Books.Find(reservation.BookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            book.isAvailable = true;
+            if (ModelState.IsValid)
+            {
+                book.updatedAt = DateTime.Now;
+                _context.Books.Update(book);
+                _context.SaveChanges();
+                TempData["success"] = "Book returned!";
+                return RedirectToAction("BooksReservedBySubscriber");
+            }
+
+            return RedirectToAction("BooksReservedBySubscriber");
+
+        }
+
     }
 }

@@ -14,9 +14,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="text-center mt-5">
+        <img src="img/login.jpg" style="width:12%" />
+    </div>
+    <div class="container d-flex justify-content-center align-items-center mt-2 border border-primary rounded" style="width:20%">
         <form asp-controller="Access" asp-action="Login" method="post">
-            <div class="form-group col-md-">
+            <div class="form-group">
                 <label for="UserName" class="form-label mt-4 ">UserName</label>
                 <input type="email" class="form-control " asp-for="UserName" id="UserName" aria-describedby="emailHelp" placeholder="Enter username">
 
@@ -25,15 +28,15 @@
                 <label for="passcode" class="form-label mt-4">Password</label>
                 <input type="password" class="form-control" asp-for="passcode" id="passcode" placeholder="Password" autocomplete="off">
             </div>
-            <label class="mt-2"><input asp-for="keepLogin" type="checkbox" />Keep me logged in</label>
+            <label class="mt-2 mb-2"><input asp-for="keepLogin" type="checkbox" />Keep me logged in</label>
             <br />
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <button type="submit" class=" text-center btn btn-primary mt-3 mb-3">Submit</button>
 
             @if (ViewData["ValidateMessage"] != null)
             {
                 <br />
                 <br />
-                <label>@ViewData["ValidateMessage"]</label>
+                <label class="text-danger">@ViewData["ValidateMessage"]</label>
             }
         </form>
     </div>

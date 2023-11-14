@@ -1,0 +1,42 @@
+﻿@model List<Biblio.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Books Reserved by Subscriber";
+}
+
+<h3>Books Reserved by Subscriber</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Book Title</th>
+            <th>Reservation Take Date</th>
+            <th>Reservation Back Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.Id</td>
+                <td>@reservation.BookId</td>
+                <td>@reservation.TakeDate.ToShortDateString()</td>
+                <td>@reservation.BackDate.ToShortDateString()</td>
+                @if (reservation.Status)
+                {
+                    <td>Returned</td>
+                }
+                else
+                {
+
+                    <td>In Progress</td>
+                    <td><a class="btn btn-warning" asp-controller="Reservations" asp-action="returnBook" asp-route-id="@reservation.Id"><i class="bi bi-arrow-return-left"></i></a></td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>

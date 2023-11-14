@@ -5,7 +5,7 @@
 
 <partial name="Notification" />
 
-<h1 class="text-primary ms-lg-2 mt-4">List of Books</h1>
+<h1 class="text-primary ms-lg-2 mt-4"> Book List</h1>
 <br/>
 
 <table class="table table-bordered table-striped" style="width:100%">
@@ -15,6 +15,7 @@
             <th>Book_Title</th>
             <th>Author</th>
             <th>Book_Description</th>
+            <th>Is_Available</th>
             <th>Created_At</th>
             <th>Updated_At</th>
             <th style="width:10%">Actions</th>
@@ -36,6 +37,16 @@
                 <td>
                     @obj.description
                 </td>
+                
+                @if (obj.isAvailable)
+                {
+                    <td>Yes</td>
+                }
+                else
+                {
+
+                    <td>No</td>
+                }
                 <td>
                     @obj.createdAt
                 </td>
@@ -44,6 +55,7 @@
                 </td>
                 <td>
                     <div class="w-75 btn-group" role="group">
+                        <a class="btn btn-light" asp-controller="Books" asp-action="Details" asp-route-id="@obj.Id"><i class="bi bi-eye-fill"></i></a>
                         <a class="btn btn-warning" asp-controller="Books" asp-action="Edit" asp-route-id="@obj.Id"><i class="bi bi-pencil-fill"></i></a>
                         <a class="btn btn-danger" asp-controller="Books" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash3-fill"></i></a>
                     </div>

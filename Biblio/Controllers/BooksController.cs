@@ -1,6 +1,7 @@
 ﻿using Biblio.Data;
 using Biblio.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Biblio.Controllers
 {
@@ -31,11 +32,30 @@ namespace Biblio.Controllers
         {
             if (ModelState.IsValid)
             {
+                book.createdAt = DateTime.Now;
+                book.updatedAt = DateTime.Now;
+                book.isAvailable = true;
                 _db.Books.Add(book);
                 _db.SaveChanges();
                 TempData["success"] = "Book added successfully!";
                 return RedirectToAction("Index");
             }
+            return View(book);
+        }
+        // Get: 
+        public  IActionResult Details(int id)
+        {
+            if (id == null || _db.Books == null)
+            {
+                return NotFound();
+            }
+
+            var book =  _db.Books.Find(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
             return View(book);
         }
         //Get
@@ -53,6 +73,7 @@ namespace Biblio.Controllers
             return View(book);
         }
 
+
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -60,6 +81,7 @@ namespace Biblio.Controllers
         {
             if (ModelState.IsValid)
             {
+                book.updatedAt = DateTime.Now;
                 _db.Books.Update(book);
                 _db.SaveChanges();
                 TempData["success"] = "Book updated successfully!";

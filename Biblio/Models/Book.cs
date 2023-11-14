@@ -15,7 +15,9 @@ namespace Biblio.Models
         [Required]
         public string author { get; set;}
         [Required]
-        public DateTime createdAt { get; set; } = DateTime.Now;
-        public DateTime updatedAt { get; set; } = DateTime.Now;
+        public DateTime createdAt { get; set; }
+        public DateTime updatedAt { get; set; } 
+
+        public bool isAvailable { get; set; } 
     }
 }

@@ -1,32 +1,40 @@
 ﻿@model Book
 
 <form method="post" >
-    <div class="border p-5 mt-5 mb-5 ">
+    <div class="border p-5 mt-2 mb-5 ">
         <div class="row pb-2">
             <h2 class="text-primary">Edit Book</h2>
             <hr />
         </div>
-        <div class="mb-4">
-            <label asp-for="title"></label>
+        <div class="mb-2">
+            <label asp-for="title">Title</label>
             <input asp-for="title" class="form-control" />
             <span asp-validation-for="title" class="text-danger"></span>
         </div>
-        <div class="mb-4">
-            <label asp-for="author"></label>
+        <div class="mb-2">
+            <label asp-for="author">Author</label>
             <input asp-for="author" class="form-control" />
             <span asp-validation-for="author" class="text-danger"></span>
         </div>
-        <div class="mb-4">
-            <label asp-for="description"></label>
-            <textarea asp-for="description" class="form-control" rows="3"></textarea>
+        <div class="mb-2">
+            <label asp-for="description">Description</label>
+            <textarea asp-for="description" class="form-control" rows="2"></textarea>
             <span asp-validation-for="description" class="text-danger"></span>
         </div>
-        <div class="mb-4">
-            <label asp-for="url"></label>
+        <div class="mb-2">
+            <label asp-for="url">URL</label>
             <input asp-for="url" class="form-control" />
             <span asp-validation-for="url" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        <div class="form-group mb-2">
+            <label asp-for="isAvailable" class="control-label">Is Available</label>
+            <select asp-for="isAvailable" class="form-control">
+                <option value="true" selected="@Model.isAvailable">Yes</option>
+                <option value="false" selected="@(!Model.isAvailable)">No</option>
+            </select>
+            <span asp-validation-for="isAvailable" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Save</button>
         <a asp-controller="Books" asp-action="Index" class="btn btn-light" style="width:150px">
             Back to list
         </a>

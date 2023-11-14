@@ -159,5 +159,6 @@ namespace Biblio.Controllers
         {
           return (_context.Subscribers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
     }
 }
